@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+var path = require('path');
+var fs = require('fs');
+var lib = path.join(path.dirname(fs.realpathSync(__filename)), '../lib');
+var s = require(lib + '/main.js');
+
+if (process.argv.length < 3) {
+  console.log('Usage: har-summary <filename> [<configFilename>]');
+  process.exit(1);
+}
+
+filename = process.argv[2]
+configFilename = null
+if (process.argv.length == 4) {
+    configFilename = process.argv[3];
+}
+
+var readConfigAndRun = function(har) {
+    fs.readFile(configFilename, {encoding: 'utf-8'}, function(err, data) {
+        var config = JSON.parse(data);
+        run(har, config);
+    });
+};
+
+var run = function(har, config) {
+    var result = s.run(har, config);
+    console.log(result);
+};
+
+fs.readFile(filename, {encoding: 'utf-8'}, function(err, data) {
+    var har = JSON.parse(data);
+
+    if (configFilename) {
+        readConfigAndRun(har);
+    } else {
+        run(har, {});
+    }
+});
