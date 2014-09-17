@@ -1,3 +1,5 @@
 .idea
 lib
 node_modules
+testData/test.har.json
+testData/test.config.json
