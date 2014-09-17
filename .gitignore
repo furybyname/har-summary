@@ -2,4 +2,5 @@
 lib/**/*.js
 node_modules
 testData/test.har.json
+testData/test.har.warm.json
 testData/test.config.json
