@@ -1,5 +1,6 @@
 _ = require('lodash')
 moment = require('moment')
+yslowProcessor = require('./yslowProcessor')
 
 String::startsWith ?= (s) -> @slice(0, s.length) == s
 
@@ -94,7 +95,7 @@ prepare = (har, pageConfig) ->
 
   har
 
-buildHarSummary = (har, pageConfig) ->
+buildHarSummary = (har, yslowData, pageConfig) ->
 
   internalUrls = _.toArray(pageConfig['cdn']['internal'])
   internalUrls.push pageConfig['url']
@@ -109,10 +110,13 @@ buildHarSummary = (har, pageConfig) ->
 
   callCount = getCallCount(entries)
   pageLoad = getRequestsRelativeToPageLoad(meta, entries)
+  yslowSummary = yslowProcessor.buildSummary(yslowData)
 
   return {
-    requestCount        : callCount
-    relativeToPageLoad  : pageLoad
+    yslow     : yslowSummary
+    summary   :
+      requestCount        : callCount
+      relativeToPageLoad  : pageLoad
   }
 
 

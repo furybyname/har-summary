@@ -1,6 +1,7 @@
 .idea
 lib/**/*.js
 node_modules
+testData/yslowOutput.js
 testData/test.har.json
 testData/test.har.warm.json
 testData/test.config.json

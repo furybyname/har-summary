@@ -15,7 +15,9 @@
     "grunt-contrib-watch": "*",
     "grunt-contrib-coffee": "*",
     "lodash": "*",
-    "moment": "*"
+    "moment": "*",
+    "yslow": "*",
+    "jsdom": "*"
   },
   "engines": {
       "node": "*"
