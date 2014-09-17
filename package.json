@@ -14,7 +14,8 @@
     "grunt-cli": "*",
     "grunt-contrib-watch": "*",
     "grunt-contrib-coffee": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "moment": "*"
   },
   "engines": {
       "node": "*"

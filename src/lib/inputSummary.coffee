@@ -1,6 +1,8 @@
+stripTrailingSlash = (str) -> if(str.substr(-1) == '/') then return str.substr(0, str.length - 1) else return str
+
 getPageConfig = (pages = [], id) ->
   for page in pages
-    if page['id'] == id
+    if stripTrailingSlash(page['id']) == id
       return page
 
   return {}
@@ -15,7 +17,9 @@ getCdns = (pageConfig, id) ->
 
 buildInputSummary = (config, har) ->
   log = har['log']
-  id = log['pages'][0]['id']
+  id = stripTrailingSlash(log['entries'][0]['request']['url'].trim('/'))
+
+  console.log id
   pageConfig = getPageConfig(config['pages'], id)
 
   {

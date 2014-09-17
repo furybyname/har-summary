@@ -24,7 +24,7 @@ var readConfigAndRun = function(har) {
 
 var run = function(har, config) {
     var result = s.run(har, config);
-    console.log(result);
+    console.log(JSON.stringify(result, undefined, 2));
 };
 
 fs.readFile(filename, {encoding: 'utf-8'}, function(err, data) {
