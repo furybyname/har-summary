@@ -13,7 +13,8 @@
     "grunt": "~0.4.2",
     "grunt-cli": "*",
     "grunt-contrib-watch": "*",
-    "grunt-contrib-coffee": "*"
+    "grunt-contrib-coffee": "*",
+    "lodash": "*"
   },
   "engines": {
       "node": "*"
