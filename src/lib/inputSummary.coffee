@@ -19,7 +19,6 @@ buildInputSummary = (config, har) ->
   log = har['log']
   id = stripTrailingSlash(log['entries'][0]['request']['url'].trim('/'))
 
-  console.log id
   pageConfig = getPageConfig(config['pages'], id)
 
   {
