@@ -2,12 +2,23 @@ getStats = (stats, key) ->
   requests  : stats[key]['r']
   weight    : stats[key]['w']
 
-process = (yslow) ->
+processHAR = (data) ->
 
-  s = yslow['stats']
+  YSlow = require('yslow').YSLOW
+  doc = require('jsdom').jsdom()
+  res = YSlow.harImporter.run(doc, data, 'ydefault')
+  content = YSlow.util.getResults(res.context, 'all')
+
+  return content
+
+
+process = (har) ->
+  ySlow = processHAR(har)
+
+  s = ySlow['stats']
   stats   : {
-    totalWeight                       : yslow['w']
-    totalRequests_excludingRedirects  : yslow['r']
+    totalWeight                       : ySlow['w']
+    totalRequests_excludingRedirects  : ySlow['r']
     documents                         : getStats(s, 'doc')
     css                               : getStats(s, 'css')
     javascript                        : getStats(s, 'js')
@@ -17,15 +28,6 @@ process = (yslow) ->
     flash                             : getStats(s, 'flash')
     redirects                         : getStats(s, 'redirect')
   }
-
-processHAR = (data) ->
-
-  YSlow = require('yslow').YSLOW
-  doc = require('jsdom').jsdom()
-  res = YSlow.harImporter.run(doc, data, 'ydefault')
-  content = YSlow.util.getResults(res.context, 'all')
-
-  return content
 
 exports.processHAR = processHAR
 exports.process = process

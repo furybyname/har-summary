@@ -1,10 +1,11 @@
 _ = require('lodash')
 moment = require('moment')
-yslowProcessor = require('./yslowProcessor')
+yslowProcessor = require('./pageProcessors/yslowProcessor')
 mimeTypeProcessor = require('./entryProcessors/mimeTypeProcessor')
 requestProcessor = require('./entryProcessors/requestProcessor')
-metaProcessor = require('./metaProcessor')
-callCountProcessor = require('./callCountProcessor')
+metaProcessor = require('./pageProcessors/metaProcessor')
+callCountProcessor = require('./pageProcessors/callCountProcessor')
+cookiesProcessor = require('./pageProcessors/cookiesProcessor')
 
 String::startsWith ?= (s) -> @slice(0, s.length) == s
 
@@ -22,7 +23,7 @@ prepare = (har, pageConfig) ->
 
   har
 
-buildHarSummary = (har, yslowData, pageConfig) ->
+buildHarSummary = (har, pageConfig) ->
 
   internalUrls = _.toArray(pageConfig['cdn']['internal'])
   internalUrls.push pageConfig['url']
@@ -35,11 +36,12 @@ buildHarSummary = (har, yslowData, pageConfig) ->
   entries = log['entries']
 
 
-  ySlow     : yslowProcessor.process(yslowData)
+  ySlow     : yslowProcessor.process(har)
   summary   :
-    requestCount        : callCountProcessor.process(entries)
+    requestCount        : callCountProcessor.process(har)
     relativeToPageLoad  : requestProcessor.process(entries, pageConfig, meta)
     resources           : mimeTypeProcessor.process(entries, pageConfig)
+    cookies             : cookiesProcessor.process(har)
 
 
 exports.buildHarSummary = buildHarSummary

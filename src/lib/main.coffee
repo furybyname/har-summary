@@ -6,7 +6,6 @@ run = (har, config) ->
   throw 'HAR must be object' unless typeof har == 'object'
 
   pageConfig = buildInputSummary(config, har)
-  yslowData = yslowProcessor.processHAR(har)
-  buildHarSummary(har, yslowData, pageConfig)
+  buildHarSummary(har, pageConfig)
 
 exports.run = run

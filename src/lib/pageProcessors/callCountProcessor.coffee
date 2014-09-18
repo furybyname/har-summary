@@ -1,6 +1,7 @@
 _ = require('lodash')
 
-process = (entries) ->
+process = (har) ->
+  entries = har['log']['entries']
   internal : _.filter(entries, (e) -> e['meta']['internal'] == true).length
   external : _.filter(entries, (e) -> e['meta']['internal'] == false).length
 
