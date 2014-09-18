@@ -3,17 +3,18 @@ getStats = (stats, key) ->
   weight    : stats[key]['w']
 
 buildSummary = (yslow) ->
-  totalWeight                       : yslow['w']
-  totalRequests_excludingRedirects  : yslow['r']
+
   s = yslow['stats']
   stats   : {
-    documents   : getStats(s, 'doc')
-    css         : getStats(s, 'css')
-    javascript  : getStats(s, 'js')
-    cssImages   : getStats(s, 'cssimage')
-    json        : getStats(s, 'json')
-    flash       : getStats(s, 'flash')
-    redirects   : getStats(s, 'redirect')
+    totalWeight                       : yslow['w']
+    totalRequests_excludingRedirects  : yslow['r']
+    documents                         : getStats(s, 'doc')
+    css                               : getStats(s, 'css')
+    javascript                        : getStats(s, 'js')
+    cssImages                         : getStats(s, 'cssimage')
+    json                              : getStats(s, 'json')
+    flash                             : getStats(s, 'flash')
+    redirects                         : getStats(s, 'redirect')
   }
 
 processHAR = (data) ->
