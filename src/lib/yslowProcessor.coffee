@@ -2,7 +2,7 @@ getStats = (stats, key) ->
   requests  : stats[key]['r']
   weight    : stats[key]['w']
 
-buildSummary = (yslow) ->
+process = (yslow) ->
 
   s = yslow['stats']
   stats   : {
@@ -28,4 +28,4 @@ processHAR = (data) ->
   return content
 
 exports.processHAR = processHAR
-exports.buildSummary = buildSummary
+exports.process = process
