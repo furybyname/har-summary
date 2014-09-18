@@ -25,7 +25,23 @@ setMimeType = (entry) ->
   entry['meta']['resourceType'] = resourceType
   entry
 
-prepare = (entry, pageConfig) -> setMimeType(entry)
+processWeightings = (entries, filterFn) ->
+  filtered = _.filter(entries, filterFn)
+
+  grouped = _.groupBy(filtered, (f) -> f['meta']['resourceType'])
+
+  sum = (sum, entry) -> sum + entry['response']['content']['size']
+
+  result = {}
+  for group, groupedEntries of grouped
+    result[group] = _.reduce(groupedEntries, sum, 0)
+
+  sumTotal = (sum, item) -> sum + item
+
+  total       : _.reduce(result, sumTotal, 0)
+  byResource  : result
+
+
 
 processSubType = (entries, filterFn) ->
   filtered = _.filter(entries, filterFn)
@@ -38,12 +54,18 @@ processSubType = (entries, filterFn) ->
 
   reduced
 
+prepare = (entry, pageConfig) -> setMimeType(entry)
 
 process = (entries, pageConfig) ->
 
-  total : processSubType(entries, (e) -> true)
-  internal : processSubType(entries, (e) -> e['meta']['internal'] is true)
-  external : processSubType(entries, (e) -> e['meta']['internal'] is false)
+  counts :
+    total    : processSubType(entries, (e) -> true)
+    internal : processSubType(entries, (e) -> e['meta']['internal'] is true)
+    external : processSubType(entries, (e) -> e['meta']['internal'] is false)
+  weights :
+    total    : processWeightings(entries, (e) -> true)
+    internal : processWeightings(entries, (e) -> e['meta']['internal'] is true)
+    external : processWeightings(entries, (e) -> e['meta']['internal'] is false)
 
 
 

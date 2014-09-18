@@ -30,8 +30,8 @@ process = (har) ->
 
   reducer = (sum, r) -> sum + r['count']
   summary:
-    total : _.reduce(result, reducer, 0)
-
+    totalCookies        : _.reduce(result, reducer, 0)
+    domainsWithCookies  : _.keys(result).length
   details : result
 
 
