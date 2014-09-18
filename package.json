@@ -2,7 +2,7 @@
   "name": "har-summary",
   "description": "Utility to summarise yslow and extra component information from a HAR file",
   "author": "Dave Archer",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "repository": {
     "url": "git@github.com:furybyname/har-summary.git",
     "type": "git"
