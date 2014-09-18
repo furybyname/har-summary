@@ -1,6 +1,7 @@
 _ = require('lodash')
 moment = require('moment')
 yslowProcessor = require('./yslowProcessor')
+mimeTypeProcessor = require('./entryProcessors/mimeTypeProcessor')
 
 String::startsWith ?= (s) -> @slice(0, s.length) == s
 
@@ -87,11 +88,12 @@ prepare = (har, pageConfig) ->
 
   for entry in log['entries']
     startedAt = entry['startedDateTime'] = moment(entry['startedDateTime'])
-    meta = {}
+    entry['meta'] = meta = {}
     meta['beforePageLoad'] = !startedAt.isAfter(loadTime)
     meta['internal'] = isInternalUrl(entry['request']['url'], pageConfig)
 
-    entry['meta'] = meta
+    entry = mimeTypeProcessor.prepare(entry, pageConfig)
+
 
   har
 
@@ -109,6 +111,7 @@ buildHarSummary = (har, yslowData, pageConfig) ->
   mainPage = log['pages'][0]
 
   callCount = getCallCount(entries)
+
   pageLoad = getRequestsRelativeToPageLoad(meta, entries)
   yslowSummary = yslowProcessor.buildSummary(yslowData)
 
@@ -117,6 +120,7 @@ buildHarSummary = (har, yslowData, pageConfig) ->
     summary   :
       requestCount        : callCount
       relativeToPageLoad  : pageLoad
+      resources           : mimeTypeProcessor.process(entries, pageConfig)
   }
 
 

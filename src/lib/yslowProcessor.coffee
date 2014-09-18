@@ -11,6 +11,7 @@ buildSummary = (yslow) ->
     documents                         : getStats(s, 'doc')
     css                               : getStats(s, 'css')
     javascript                        : getStats(s, 'js')
+    images                            : getStats(s, 'image')
     cssImages                         : getStats(s, 'cssimage')
     json                              : getStats(s, 'json')
     flash                             : getStats(s, 'flash')
