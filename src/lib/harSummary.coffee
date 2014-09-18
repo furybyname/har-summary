@@ -6,6 +6,7 @@ requestProcessor = require('./entryProcessors/requestProcessor')
 metaProcessor = require('./pageProcessors/metaProcessor')
 callCountProcessor = require('./pageProcessors/callCountProcessor')
 cookiesProcessor = require('./pageProcessors/cookiesProcessor')
+timingsProcessor = require('./pageProcessors/timingsProcessor')
 
 String::startsWith ?= (s) -> @slice(0, s.length) == s
 
@@ -39,6 +40,7 @@ buildHarSummary = (har, pageConfig) ->
   ySlow     : yslowProcessor.process(har)
   summary   :
     requestCount        : callCountProcessor.process(har)
+    mainDocumentTiming  : timingsProcessor.process(har)
     relativeToPageLoad  : requestProcessor.process(entries, pageConfig, meta)
     resources           : mimeTypeProcessor.process(entries, pageConfig)
     cookies             : cookiesProcessor.process(har)
