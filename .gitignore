@@ -2,6 +2,7 @@
 lib/**/*.js
 test.coffee
 node_modules
+testData/test.phantom.har.js
 testData/yslowOutput.js
 testData/test.har.json
 testData/test.har.warm.json

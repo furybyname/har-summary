@@ -15,10 +15,15 @@ mimeTypesLookup = {
 setMimeType = (entry) ->
   rawMimeType = entry['response']['content']['mimeType']
   resourceType = 'notFoundInLookups'
-  for key, mimeTypes of mimeTypesLookup
-    if mimeTypes.indexOf(rawMimeType) > -1
-      resourceType = key
-      break
+  if rawMimeType
+    for key, mimeTypes of mimeTypesLookup
+      if mimeTypes.indexOf(rawMimeType) > -1
+        resourceType = key
+        break
+      for mimeType in mimeTypes
+        if rawMimeType.startsWith mimeType
+          resourceType = key
+          break
 
   if resourceType is 'notFoundInLookups' then console.log rawMimeType
 

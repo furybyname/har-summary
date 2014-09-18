@@ -1,6 +1,8 @@
 getStats = (stats, key) ->
-  requests  : stats[key]['r']
-  weight    : stats[key]['w']
+  return unless items = stats[key]
+
+  requests  : items['r']
+  weight    : items['w']
 
 processHAR = (data) ->
 
