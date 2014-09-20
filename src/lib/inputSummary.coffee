@@ -7,10 +7,23 @@ getPageConfig = (pages = [], id) ->
 
   return {}
 
-getCdns = (pageConfig, id) ->
+extendCdns = (globalCdns, localCdns) ->
+  for cdn in globalCdns
+    localCdns.push(cdn) unless localCdns.indexOf(cdn) > -1
+
+  localCdns
+
+getCdns = (config, pageConfig, id) ->
   cdn = pageConfig['cdn'] || {}
   internal = cdn['internal'] || []
   external = cdn['external'] || []
+
+  globalCdn = config['cdn'] or {}
+  globalInternalCdn = globalCdn['internal'] or []
+  globalExternalCdn = globalCdn['external'] or []
+
+  internal = extendCdns(globalInternalCdn, internal)
+  external = extendCdns(globalExternalCdn, external)
 
   internal : internal
   external : external
@@ -24,7 +37,7 @@ buildInputSummary = (config, har) ->
   {
     'url'   : id
     'name'  : pageConfig['friendlyName'] || id
-    'cdn'   : getCdns(pageConfig, id)
+    'cdn'   : getCdns(config, pageConfig, id)
   }
 
 exports.buildInputSummary = buildInputSummary

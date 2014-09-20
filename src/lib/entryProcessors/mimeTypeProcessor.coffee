@@ -5,7 +5,7 @@ mimeTypesLookup = {
   text        : ['text/plain']
   javascript  : ['application/javascript', 'application/x-javascript', 'text/javascript']
   json        : ['application/json']
-  image       : ['image/png', 'image/gif', 'image/jpg', 'image/jpeg']
+  image       : ['image/png', 'image/gif', 'image/jpg', 'image/jpeg', 'image/bmp']
   css         : ['text/css']
   flash       : ['application/x-shockwave-flash']
   unknown     : ['x-unknown']

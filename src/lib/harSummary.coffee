@@ -24,10 +24,15 @@ prepare = (har, pageConfig) ->
 
   har
 
+getServerNameAndScheme = (url = '') ->
+  scheme = if url.startsWith('http://') then 'http://' else 'https://'
+  serverName = url.replace('http://', '').replace('https://', '').split('/')[0]
+  return "#{scheme}#{serverName}"
+
 buildHarSummary = (har, pageConfig) ->
 
   internalUrls = _.toArray(pageConfig['cdn']['internal'])
-  internalUrls.push pageConfig['url']
+  internalUrls.push getServerNameAndScheme(pageConfig['url'])
   pageConfig['allInternalUrls'] = internalUrls
 
   har = prepare(har, pageConfig)
